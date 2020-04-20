@@ -165,9 +165,12 @@ __webpack_require__.r(__webpack_exports__);
 
 function TwitchClipIndex(_ref) {
   var clips = _ref.clips;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, clips.map(function (clip) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "clips_index"
+  }, clips.map(function (clip) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      clip: clip
+      clip: clip,
+      key: clip.slug
     });
   }));
 }
@@ -187,16 +190,52 @@ function TwitchClipIndex(_ref) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _twitch_clip_item_iframe__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./twitch_clip_item_iframe */ "./components/twitch_clip_item_iframe.jsx");
+
 
 
 function TwitchClipItem(_ref) {
   var clip = _ref.clip;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: clip.thumbnails.medium
-  }));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: clip.url,
+    target: "_blank"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: clip.thumbnails.small
+  })));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (TwitchClipItem);
+
+/***/ }),
+
+/***/ "./components/twitch_clip_item_iframe.jsx":
+/*!************************************************!*\
+  !*** ./components/twitch_clip_item_iframe.jsx ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function TwitchClipItemiFrame(_ref) {
+  var clip = _ref.clip;
+  var src = "https://clips.twitch.tv/embed?clip=".concat(clip.slug, "&tt_medium=clips_api&tt_content=embed&autoplay=false");
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("iframe", {
+    src: src,
+    height: "242",
+    width: "480",
+    frameborder: "0",
+    scrolling: "no",
+    autoplay: "false",
+    allowfullscreen: "false"
+  });
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (TwitchClipItemiFrame);
 
 /***/ }),
 
@@ -259,7 +298,7 @@ var TwitchClipsSearch = /*#__PURE__*/function (_React$Component) {
   _createClass(TwitchClipsSearch, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.fetchSearchTwitchClipsByGame('golden+retriever');
+      this.props.fetchSearchTwitchClipsByGame('Animal Crossing');
     }
   }, {
     key: "handleChange",
@@ -279,7 +318,9 @@ var TwitchClipsSearch = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var clips = this.props.clips;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "twitch_clip_search"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "search-bar"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         value: this.state.searchTerm,

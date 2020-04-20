@@ -11,7 +11,7 @@ class TwitchClipsSearch extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchSearchTwitchClipsByGame('golden+retriever');
+    this.props.fetchSearchTwitchClipsByGame('Animal Crossing');
   }
 
   handleChange(e) {
@@ -28,7 +28,7 @@ class TwitchClipsSearch extends React.Component {
     let { clips } = this.props;
 
     return (
-      <div>
+      <div className="twitch_clip_search">
         <form className="search-bar">
           <input value={this.state.searchTerm} onChange={this.handleChange} />
           <button type="submit" onClick={this.handleSubmit}>Search Twitch</button>
