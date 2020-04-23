@@ -5,23 +5,29 @@ import TwitchClipsIndex from './twitch_clip_index';
 class TwitchClipsSearch extends React.Component {
   constructor() {
     super();
-    this.state = { searchTerm: 'Animal Crossing' };
+    this.state = { 
+      searchTerm: 'Super Mario Bros.',
+      languages: 'en',
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    this.props.fetchSearchTwitchClipsByGame('Animal Crossing');
+    this.props.fetchSearchTwitchClipsByGame(this.state.searchTerm);
   }
 
   handleChange(e) {
-    this.setState({ searchTerm: e.currentTarget.value });
+    //capture form change here 
+    let key = e.currentTarget.name;
+    this.setState({ [key]: e.currentTarget.value });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    let searchTerm = this.state.searchTerm.split(' ').join('+');
-    this.props.fetchSearchTwitchClipsByGame(searchTerm);
+    let searchTerm = this.state.searchTerm;
+    let languages = this.state.languages; 
+    this.props.fetchSearchTwitchClipsByGame(searchTerm, languages);
   }
 
   render() {
@@ -30,7 +36,9 @@ class TwitchClipsSearch extends React.Component {
     return (
       <div className="twitch_clip_search">
         <form className="search-bar">
-          <input value={this.state.searchTerm} onChange={this.handleChange} />
+          <input name="searchTerm" value={this.state.searchTerm} onChange={this.handleChange} />
+          <span>Language: </span>
+          <input name="languages" value={this.state.languages} onChange={this.handleChange} />
           <button type="submit" onClick={this.handleSubmit}>Search Twitch</button>
         </form>
         <TwitchClipsIndex clips={clips} />

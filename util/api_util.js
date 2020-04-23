@@ -10,7 +10,7 @@ export const searchTwitchClipsByLoginName = loginName => {
     })
 };
 
-export const fetchGameClips = (game, period='week', languages="", limit=100, cursor="") => {
+export const fetchGameClips = (game, languages="", period='week', limit=100, cursor="") => {
     let langOptions = languages === "" ? "" : "&language=" + languages.trim().split("|").join(",")
     let cursorOption = cursor.length === 0 ? "" : `&cursor=${cursor}`
     let url = `https://api.twitch.tv/kraken/clips/top?game=${game}&limit=${limit}&period=${period}${langOptions}${cursorOption}`

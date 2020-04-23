@@ -8,7 +8,7 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = dispatch => {
     return {
-        fetchSearchTwitchClipsByGame: searchTerm => dispatch(fetchSearchTwitchClipsByGame(searchTerm))
+        fetchSearchTwitchClipsByGame: (searchTerm, languages) => dispatch(fetchSearchTwitchClipsByGame(searchTerm, languages))
     };
 };
 

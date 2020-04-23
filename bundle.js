@@ -103,9 +103,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var RECEIVE_SEARCH_GAME_CLIPS = 'RECEIVE_SEARCH_GAME_CLIPS';
 var REQUEST_SEARCH_GAME_CLIPS = 'REQUEST_SEARCH_GAME_CLIPS';
-var fetchSearchTwitchClipsByGame = function fetchSearchTwitchClipsByGame(searchTerm) {
+var fetchSearchTwitchClipsByGame = function fetchSearchTwitchClipsByGame(searchTerm, languages) {
   return function (dispatch) {
-    return _util_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchGameClips"](searchTerm).then(function (resp) {
+    return _util_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchGameClips"](searchTerm, languages).then(function (resp) {
       return dispatch(receiveSearchGameClips(resp.clips));
     });
   };
@@ -253,6 +253,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _twitch_clip_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./twitch_clip_index */ "./components/twitch_clip_index.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -288,7 +290,8 @@ var TwitchClipsSearch = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this);
     _this.state = {
-      searchTerm: 'Animal Crossing'
+      searchTerm: 'Super Mario Bros.',
+      languages: 'en'
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
@@ -298,21 +301,22 @@ var TwitchClipsSearch = /*#__PURE__*/function (_React$Component) {
   _createClass(TwitchClipsSearch, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.fetchSearchTwitchClipsByGame('Animal Crossing');
+      this.props.fetchSearchTwitchClipsByGame(this.state.searchTerm);
     }
   }, {
     key: "handleChange",
     value: function handleChange(e) {
-      this.setState({
-        searchTerm: e.currentTarget.value
-      });
+      //capture form change here 
+      var key = e.currentTarget.name;
+      this.setState(_defineProperty({}, key, e.currentTarget.value));
     }
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
-      var searchTerm = this.state.searchTerm.split(' ').join('+');
-      this.props.fetchSearchTwitchClipsByGame(searchTerm);
+      var searchTerm = this.state.searchTerm;
+      var languages = this.state.languages;
+      this.props.fetchSearchTwitchClipsByGame(searchTerm, languages);
     }
   }, {
     key: "render",
@@ -323,7 +327,12 @@ var TwitchClipsSearch = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "search-bar"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        name: "searchTerm",
         value: this.state.searchTerm,
+        onChange: this.handleChange
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Language: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        name: "languages",
+        value: this.state.languages,
         onChange: this.handleChange
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
@@ -365,8 +374,8 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    fetchSearchTwitchClipsByGame: function fetchSearchTwitchClipsByGame(searchTerm) {
-      return dispatch(Object(_actions_twitch_actions__WEBPACK_IMPORTED_MODULE_2__["fetchSearchTwitchClipsByGame"])(searchTerm));
+    fetchSearchTwitchClipsByGame: function fetchSearchTwitchClipsByGame(searchTerm, languages) {
+      return dispatch(Object(_actions_twitch_actions__WEBPACK_IMPORTED_MODULE_2__["fetchSearchTwitchClipsByGame"])(searchTerm, languages));
     }
   };
 };
@@ -32579,8 +32588,8 @@ var searchTwitchClipsByLoginName = function searchTwitchClipsByLoginName(loginNa
   });
 };
 var fetchGameClips = function fetchGameClips(game) {
-  var period = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'week';
-  var languages = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
+  var languages = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+  var period = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'week';
   var limit = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 100;
   var cursor = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "";
   var langOptions = languages === "" ? "" : "&language=" + languages.trim().split("|").join(",");
