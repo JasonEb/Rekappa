@@ -90,29 +90,59 @@
 /*!***********************************!*\
   !*** ./actions/twitch_actions.js ***!
   \***********************************/
-/*! exports provided: RECEIVE_SEARCH_GAME_CLIPS, REQUEST_SEARCH_GAME_CLIPS, fetchSearchTwitchClipsByGame, receiveSearchGameClips */
+/*! exports provided: RECEIVE_SEARCH_GAME_CLIPS, REQUEST_SEARCH_GAME_CLIPS, RECEIVE_CHANNEL_CLIPS, RESET_FETCHED_CLIPS, fetchSearchTwitchClipsByGame, filterClipsByChannel, receiveSearchGameClips, receiveChannelClips, resetFetchedClips */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SEARCH_GAME_CLIPS", function() { return RECEIVE_SEARCH_GAME_CLIPS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REQUEST_SEARCH_GAME_CLIPS", function() { return REQUEST_SEARCH_GAME_CLIPS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CHANNEL_CLIPS", function() { return RECEIVE_CHANNEL_CLIPS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RESET_FETCHED_CLIPS", function() { return RESET_FETCHED_CLIPS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchSearchTwitchClipsByGame", function() { return fetchSearchTwitchClipsByGame; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filterClipsByChannel", function() { return filterClipsByChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveSearchGameClips", function() { return receiveSearchGameClips; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveChannelClips", function() { return receiveChannelClips; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "resetFetchedClips", function() { return resetFetchedClips; });
 /* harmony import */ var _util_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/api_util */ "./util/api_util.js");
 
 var RECEIVE_SEARCH_GAME_CLIPS = 'RECEIVE_SEARCH_GAME_CLIPS';
 var REQUEST_SEARCH_GAME_CLIPS = 'REQUEST_SEARCH_GAME_CLIPS';
-var fetchSearchTwitchClipsByGame = function fetchSearchTwitchClipsByGame(searchTerm, languages) {
+var RECEIVE_CHANNEL_CLIPS = 'REQUEST_CHANNEL_CLIPS';
+var RESET_FETCHED_CLIPS = 'RESET_FETCHED_CLIPS';
+var fetchSearchTwitchClipsByGame = function fetchSearchTwitchClipsByGame(searchTerm, languages, period) {
   return function (dispatch) {
-    return _util_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchGameClips"](searchTerm, languages).then(function (resp) {
+    return _util_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchGameClips"](searchTerm, languages, period).then(function (resp) {
       return dispatch(receiveSearchGameClips(resp.clips));
     });
+  };
+};
+var filterClipsByChannel = function filterClipsByChannel(clips, channel) {
+  return function (dispatch) {
+    var result = [];
+    clips.forEach(function (clip) {
+      if (clip.broadcaster.display_name === channel || channel === "all") {
+        result.push(clip);
+      }
+    });
+    return dispatch(receiveChannelClips(result));
   };
 };
 var receiveSearchGameClips = function receiveSearchGameClips(clips) {
   return {
     type: RECEIVE_SEARCH_GAME_CLIPS,
+    clips: clips
+  };
+};
+var receiveChannelClips = function receiveChannelClips(clips) {
+  return {
+    type: RECEIVE_CHANNEL_CLIPS,
+    clips: clips
+  };
+};
+var resetFetchedClips = function resetFetchedClips(clips) {
+  return {
+    type: RESET_FETCHED_CLIPS,
     clips: clips
   };
 };
@@ -291,10 +321,13 @@ var TwitchClipsSearch = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this);
     _this.state = {
       searchTerm: 'Super Mario Bros.',
-      languages: 'en'
+      languages: 'en',
+      period: 'week',
+      originalClips: []
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.handleChannelChange = _this.handleChannelChange.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -316,7 +349,40 @@ var TwitchClipsSearch = /*#__PURE__*/function (_React$Component) {
       e.preventDefault();
       var searchTerm = this.state.searchTerm;
       var languages = this.state.languages;
-      this.props.fetchSearchTwitchClipsByGame(searchTerm, languages);
+      var period = this.state.period;
+      this.props.fetchSearchTwitchClipsByGame(searchTerm, languages, period);
+    }
+  }, {
+    key: "handleChannelChange",
+    value: function handleChannelChange(e) {
+      e.preventDefault();
+
+      if (e.currentTarget.value === "all") {
+        var searchTerm = this.state.searchTerm;
+        var languages = this.state.languages;
+        var period = this.state.period;
+        this.props.fetchSearchTwitchClipsByGame(searchTerm, languages, period);
+      } else {
+        this.props.filterClipsByChannel(this.props.clips, e.currentTarget.value);
+      }
+    }
+  }, {
+    key: "populateChannels",
+    value: function populateChannels() {
+      var clips = this.props.clips;
+      var channels = [];
+      var channelsList = [];
+      clips.forEach(function (clip) {
+        var channel = clip.broadcaster.display_name;
+
+        if (!channels.includes(channel)) {
+          channels.push(channel);
+          channelsList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+            value: channel
+          }, channel));
+        }
+      });
+      return channelsList;
     }
   }, {
     key: "render",
@@ -334,7 +400,23 @@ var TwitchClipsSearch = /*#__PURE__*/function (_React$Component) {
         name: "languages",
         value: this.state.languages,
         onChange: this.handleChange
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Period"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        name: "period",
+        onChange: this.handleChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "week"
+      }, "week"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "day"
+      }, "day"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "month"
+      }, "month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "all"
+      }, "all")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        name: "channel",
+        onChange: this.handleChannelChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "all"
+      }, "all"), this.populateChannels()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         onClick: this.handleSubmit
       }, "Search Twitch")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_index__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -362,11 +444,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _twitch_clips_search__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./twitch_clips_search */ "./components/twitch_clips_search.jsx");
 /* harmony import */ var _actions_twitch_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/twitch_actions */ "./actions/twitch_actions.js");
+/* harmony import */ var _reducers_clips_selector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/clips_selector */ "./reducers/clips_selector.js");
 
 
 
 
-var mapStateToProps = function mapStateToProps(state) {
+var initialState = {
+  clips: [],
+  channel: ""
+};
+
+var mapStateToProps = function mapStateToProps() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   return {
     clips: state.clips
   };
@@ -374,8 +463,14 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    fetchSearchTwitchClipsByGame: function fetchSearchTwitchClipsByGame(searchTerm, languages) {
-      return dispatch(Object(_actions_twitch_actions__WEBPACK_IMPORTED_MODULE_2__["fetchSearchTwitchClipsByGame"])(searchTerm, languages));
+    fetchSearchTwitchClipsByGame: function fetchSearchTwitchClipsByGame(searchTerm, languages, period) {
+      return dispatch(_actions_twitch_actions__WEBPACK_IMPORTED_MODULE_2__["fetchSearchTwitchClipsByGame"](searchTerm, languages, period));
+    },
+    filterClipsByChannel: function filterClipsByChannel(clips, channel) {
+      return dispatch(_actions_twitch_actions__WEBPACK_IMPORTED_MODULE_2__["filterClipsByChannel"](clips, channel));
+    },
+    resetClips: function resetClips(clips) {
+      return dispatch(_actions_twitch_actions__WEBPACK_IMPORTED_MODULE_2__["resetFetchedClips"](clips));
     }
   };
 };
@@ -32455,6 +32550,30 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
+/***/ "./reducers/clips_selector.js":
+/*!************************************!*\
+  !*** ./reducers/clips_selector.js ***!
+  \************************************/
+/*! exports provided: filterClipsByChannel */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filterClipsByChannel", function() { return filterClipsByChannel; });
+var filterClipsByChannel = function filterClipsByChannel(_ref) {
+  var clips = _ref.clips,
+      channel = _ref.channel;
+  var result = [];
+  clips.forEach(function (clip) {
+    if (clip.broadcaster.display_name === channel || channel === "all") {
+      result.push(clip);
+    }
+  });
+  return result;
+};
+
+/***/ }),
+
 /***/ "./reducers/root_reducer.js":
 /*!**********************************!*\
   !*** ./reducers/root_reducer.js ***!
@@ -32492,6 +32611,12 @@ var twitchReducer = function twitchReducer() {
 
   switch (action.type) {
     case _actions_twitch_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SEARCH_GAME_CLIPS"]:
+      return action.clips;
+
+    case _actions_twitch_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CHANNEL_CLIPS"]:
+      return action.clips;
+
+    case _actions_twitch_actions__WEBPACK_IMPORTED_MODULE_0__["RESET_FETCHED_CLIPS"]:
       return action.clips;
 
     default:
@@ -32587,14 +32712,15 @@ var searchTwitchClipsByLoginName = function searchTwitchClipsByLoginName(loginNa
     headers: headers
   });
 };
-var fetchGameClips = function fetchGameClips(game) {
+var fetchGameClips = function fetchGameClips(query) {
   var languages = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
   var period = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'week';
   var limit = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 100;
   var cursor = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "";
-  var langOptions = languages === "" ? "" : "&language=" + languages.trim().split("|").join(",");
+  var langOptions = languages === "" ? "" : "&language=" + languages.trim();
   var cursorOption = cursor.length === 0 ? "" : "&cursor=".concat(cursor);
-  var url = "https://api.twitch.tv/kraken/clips/top?game=".concat(game, "&limit=").concat(limit, "&period=").concat(period).concat(langOptions).concat(cursorOption);
+  var mainQuery = query[0] == "@" ? "channel=".concat(query.substring(1, query.length)) : "game=".concat(query);
+  var url = "https://api.twitch.tv/kraken/clips/top?".concat(mainQuery, "&limit=").concat(limit, "&period=").concat(period).concat(langOptions).concat(cursorOption);
   var headers = {
     'Client-ID': 'l622tc0oqzk3cso09retwcmw8rixl7',
     'Accept': 'application/vnd.twitchtv.v5+json'

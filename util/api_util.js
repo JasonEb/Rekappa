@@ -10,10 +10,11 @@ export const searchTwitchClipsByLoginName = loginName => {
     })
 };
 
-export const fetchGameClips = (game, languages="", period='week', limit=100, cursor="") => {
-    let langOptions = languages === "" ? "" : "&language=" + languages.trim().split("|").join(",")
+export const fetchGameClips = (query, languages="", period='week', limit=100, cursor="") => {
+    let langOptions = languages === "" ? "" : "&language=" + languages.trim()
     let cursorOption = cursor.length === 0 ? "" : `&cursor=${cursor}`
-    let url = `https://api.twitch.tv/kraken/clips/top?game=${game}&limit=${limit}&period=${period}${langOptions}${cursorOption}`
+    let mainQuery = (query[0] == "@" ? `channel=${query.substring(1, query.length)}` : `game=${query}`)
+    let url = `https://api.twitch.tv/kraken/clips/top?${mainQuery}&limit=${limit}&period=${period}${langOptions}${cursorOption}`
     let headers = { 'Client-ID': 'l622tc0oqzk3cso09retwcmw8rixl7',
                 'Accept': 'application/vnd.twitchtv.v5+json' }
                 

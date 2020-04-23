@@ -8,9 +8,12 @@ class TwitchClipsSearch extends React.Component {
     this.state = { 
       searchTerm: 'Super Mario Bros.',
       languages: 'en',
+      period: 'week',
+      originalClips: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChannelChange = this.handleChannelChange.bind(this);
   }
 
   componentDidMount() {
@@ -26,8 +29,38 @@ class TwitchClipsSearch extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     let searchTerm = this.state.searchTerm;
-    let languages = this.state.languages; 
-    this.props.fetchSearchTwitchClipsByGame(searchTerm, languages);
+    let languages = this.state.languages;
+    let period = this.state.period; 
+    this.props.fetchSearchTwitchClipsByGame(searchTerm, languages, period);
+  }
+
+  handleChannelChange(e) {
+    e.preventDefault();
+    if (e.currentTarget.value === "all") {
+      let searchTerm = this.state.searchTerm;
+      let languages = this.state.languages;
+      let period = this.state.period; 
+      this.props.fetchSearchTwitchClipsByGame(searchTerm, languages, period);
+    } else {
+      this.props.filterClipsByChannel(this.props.clips, e.currentTarget.value);
+    }
+  }
+
+  populateChannels() {
+    let clips = this.props.clips;
+    let channels = [];
+    let channelsList = [];
+
+    clips.forEach( (clip) => {
+      let channel = clip.broadcaster.display_name
+      
+      if (!channels.includes(channel)) {
+        channels.push(channel)
+        channelsList.push(<option value={channel}>{channel}</option>)
+      }
+    })
+
+    return channelsList;
   }
 
   render() {
@@ -37,8 +70,24 @@ class TwitchClipsSearch extends React.Component {
       <div className="twitch_clip_search">
         <form className="search-bar">
           <input name="searchTerm" value={this.state.searchTerm} onChange={this.handleChange} />
+
           <span>Language: </span>
           <input name="languages" value={this.state.languages} onChange={this.handleChange} />
+
+          <label>Period</label>
+          <select name="period" onChange={this.handleChange}>
+            <option value="week">week</option>
+            <option value="day">day</option>
+            <option value="month">month</option>
+            <option value="all">all</option>
+          </select>
+
+          <label>Channel</label>
+          <select name="channel" onChange={this.handleChannelChange}>
+            <option value="all">all</option>
+            { this.populateChannels()}
+          </select>
+
           <button type="submit" onClick={this.handleSubmit}>Search Twitch</button>
         </form>
         <TwitchClipsIndex clips={clips} />
