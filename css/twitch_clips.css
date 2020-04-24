@@ -1,0 +1,11 @@
+.clip_item {
+    outline: 1px dashed green;
+}
+
+.clip_item_anchor {
+    outline:1px solid red;   
+}
+
+.clip_item_info {
+    outline:1px groove blue;
+}

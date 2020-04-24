@@ -4,10 +4,16 @@ import TwitchClipItemiFrame from './twitch_clip_item_iframe';
 
 function TwitchClipItem({ clip }) {
     return (
-      <li>
-        <a href={clip.url} target="_blank">
+      <li className="clip_item" key={clip.slug}> 
+
+        <a href={clip.url} className="clip_item_anchor" target="_blank">
             <img src={clip.thumbnails.small} />
         </a>
+        <div className="clip_item_info">
+          <div className="clip_title">{clip.title}</div>
+          <div className="clip_broadcaster_name"> {clip.broadcaster.name}</div>
+        </div>
+        
         {/* <TwitchClipItemiFrame clip={clip} /> */}
       </li>
     );

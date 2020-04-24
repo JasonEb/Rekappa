@@ -56,7 +56,7 @@ class TwitchClipsSearch extends React.Component {
       
       if (!channels.includes(channel)) {
         channels.push(channel)
-        channelsList.push(<option value={channel}>{channel}</option>)
+        channelsList.push(<option value={channel} key={clip.slug}>{channel}</option>)
       }
     })
 

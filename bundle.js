@@ -226,12 +226,22 @@ __webpack_require__.r(__webpack_exports__);
 
 function TwitchClipItem(_ref) {
   var clip = _ref.clip;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "clip_item",
+    key: clip.slug
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: clip.url,
+    className: "clip_item_anchor",
     target: "_blank"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: clip.thumbnails.small
-  })));
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "clip_item_info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "clip_title"
+  }, clip.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "clip_broadcaster_name"
+  }, " ", clip.broadcaster.name)));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (TwitchClipItem);
@@ -378,7 +388,8 @@ var TwitchClipsSearch = /*#__PURE__*/function (_React$Component) {
         if (!channels.includes(channel)) {
           channels.push(channel);
           channelsList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-            value: channel
+            value: channel,
+            key: clip.slug
           }, channel));
         }
       });
