@@ -11,7 +11,9 @@ function TwitchClipItem({ clip }) {
         </a>
         <div className="clip_item_info">
           <div className="clip_title">{clip.title}</div>
-          <div className="clip_broadcaster_name"> {clip.broadcaster.name}</div>
+          <a href={clip.broadcaster.channel_url} target="_blank">
+            <div className="clip_broadcaster_name"> {clip.broadcaster.name}</div>
+          </a>
         </div>
         
         {/* <TwitchClipItemiFrame clip={clip} /> */}

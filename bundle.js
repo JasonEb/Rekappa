@@ -239,9 +239,12 @@ function TwitchClipItem(_ref) {
     className: "clip_item_info"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "clip_title"
-  }, clip.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, clip.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: clip.broadcaster.channel_url,
+    target: "_blank"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "clip_broadcaster_name"
-  }, " ", clip.broadcaster.name)));
+  }, " ", clip.broadcaster.name))));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (TwitchClipItem);

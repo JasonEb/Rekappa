@@ -1,11 +1,19 @@
 .clip_item {
-    outline: 1px dashed green;
+    display: flex;
+    flex-direction: column;
+    width: min-content;
 }
 
-.clip_item_anchor {
-    outline:1px solid red;   
+.clip_item_anchor {   
 }
 
 .clip_item_info {
-    outline:1px groove blue;
+}
+
+.clip_item_info > .clip_title {
+    font-weight: bold;
+}
+
+.clip_item_info > .clip_broadcaster_name {
+    font-style: oblique; 
 }
