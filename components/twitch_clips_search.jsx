@@ -81,6 +81,7 @@ class TwitchClipsSearch extends React.Component {
             <option value="most-views">Most Views</option>
             <option value="least-views">Least Views</option>
             <option value="channel">Channel</option>
+            <option value="game">Game</option>
           </select>
 
           <span>Language: </span>
