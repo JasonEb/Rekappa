@@ -86,6 +86,68 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./actions/sort_actions.js":
+/*!*********************************!*\
+  !*** ./actions/sort_actions.js ***!
+  \*********************************/
+/*! exports provided: SORT_GAME_CLIPS, sortClipsBy, receiveSortedClips */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SORT_GAME_CLIPS", function() { return SORT_GAME_CLIPS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortClipsBy", function() { return sortClipsBy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveSortedClips", function() { return receiveSortedClips; });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var SORT_GAME_CLIPS = 'SORT_GAME_CLIPS';
+var sortClipsBy = function sortClipsBy(clips, sort_type) {
+  return function (dispatch) {
+    var result = _toConsumableArray(clips);
+
+    var sortBy = sort_type;
+
+    switch (sort_type) {
+      case 'least-views':
+        result.sort(ByLeastViews);
+        break;
+
+      default:
+        result.sort(ByMostViews);
+        break;
+    }
+
+    return dispatch(receiveSortedClips(result));
+  };
+};
+
+var ByMostViews = function ByMostViews(clip_a, clip_b) {
+  return clip_a.views <= clip_b.views ? 1 : -1;
+};
+
+var ByLeastViews = function ByLeastViews(clip_a, clip_b) {
+  return clip_a.views >= clip_b.views ? 1 : -1;
+};
+
+var receiveSortedClips = function receiveSortedClips(clips) {
+  return {
+    type: SORT_GAME_CLIPS,
+    clips: clips
+  };
+};
+
+/***/ }),
+
 /***/ "./actions/twitch_actions.js":
 /*!***********************************!*\
   !*** ./actions/twitch_actions.js ***!
@@ -120,6 +182,7 @@ var fetchSearchTwitchClipsByGame = function fetchSearchTwitchClipsByGame(searchT
 var filterClipsByChannel = function filterClipsByChannel(clips, channel) {
   return function (dispatch) {
     var result = [];
+    debugger;
     clips.forEach(function (clip) {
       if (clip.broadcaster.display_name === channel || channel === "all") {
         result.push(clip);
@@ -141,11 +204,12 @@ var receiveChannelClips = function receiveChannelClips(clips) {
   };
 };
 var resetFetchedClips = function resetFetchedClips(clips) {
+  debugger;
   return {
     type: RESET_FETCHED_CLIPS,
     clips: clips
   };
-};
+}; //sort
 
 /***/ }),
 
@@ -336,13 +400,13 @@ var TwitchClipsSearch = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this);
     _this.state = {
       searchTerm: 'Super Mario Bros.',
-      languages: 'en',
-      period: 'week',
-      originalClips: []
+      languages: '',
+      period: 'week'
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleChannelChange = _this.handleChannelChange.bind(_assertThisInitialized(_this));
+    _this.handleSortChange = _this.handleSortChange.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -366,6 +430,12 @@ var TwitchClipsSearch = /*#__PURE__*/function (_React$Component) {
       var languages = this.state.languages;
       var period = this.state.period;
       this.props.fetchSearchTwitchClipsByGame(searchTerm, languages, period);
+    }
+  }, {
+    key: "handleSortChange",
+    value: function handleSortChange(e) {
+      e.preventDefault();
+      this.props.sortClipsBy(this.props.clips, e.currentTarget.value);
     }
   }, {
     key: "handleChannelChange",
@@ -412,7 +482,14 @@ var TwitchClipsSearch = /*#__PURE__*/function (_React$Component) {
         name: "searchTerm",
         value: this.state.searchTerm,
         onChange: this.handleChange
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Language: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Sort By"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        name: "sort",
+        onChange: this.handleSortChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "most-views"
+      }, "Most Views"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "least-views"
+      }, "Least Views")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Language: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         name: "languages",
         value: this.state.languages,
         onChange: this.handleChange
@@ -460,7 +537,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _twitch_clips_search__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./twitch_clips_search */ "./components/twitch_clips_search.jsx");
 /* harmony import */ var _actions_twitch_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/twitch_actions */ "./actions/twitch_actions.js");
-/* harmony import */ var _reducers_clips_selector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/clips_selector */ "./reducers/clips_selector.js");
+/* harmony import */ var _actions_sort_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/sort_actions */ "./actions/sort_actions.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 
 
@@ -473,7 +562,8 @@ var initialState = {
 var mapStateToProps = function mapStateToProps() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   return {
-    clips: state.clips
+    clips: state.clips,
+    originalClips: _toConsumableArray(state.clips)
   };
 };
 
@@ -484,6 +574,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     filterClipsByChannel: function filterClipsByChannel(clips, channel) {
       return dispatch(_actions_twitch_actions__WEBPACK_IMPORTED_MODULE_2__["filterClipsByChannel"](clips, channel));
+    },
+    sortClipsBy: function sortClipsBy(clips, sort_type) {
+      return dispatch(_actions_sort_actions__WEBPACK_IMPORTED_MODULE_3__["sortClipsBy"](clips, sort_type));
     },
     resetClips: function resetClips(clips) {
       return dispatch(_actions_twitch_actions__WEBPACK_IMPORTED_MODULE_2__["resetFetchedClips"](clips));
@@ -32566,30 +32659,6 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ "./reducers/clips_selector.js":
-/*!************************************!*\
-  !*** ./reducers/clips_selector.js ***!
-  \************************************/
-/*! exports provided: filterClipsByChannel */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filterClipsByChannel", function() { return filterClipsByChannel; });
-var filterClipsByChannel = function filterClipsByChannel(_ref) {
-  var clips = _ref.clips,
-      channel = _ref.channel;
-  var result = [];
-  clips.forEach(function (clip) {
-    if (clip.broadcaster.display_name === channel || channel === "all") {
-      result.push(clip);
-    }
-  });
-  return result;
-};
-
-/***/ }),
-
 /***/ "./reducers/root_reducer.js":
 /*!**********************************!*\
   !*** ./reducers/root_reducer.js ***!
@@ -32619,11 +32688,14 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_twitch_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/twitch_actions */ "./actions/twitch_actions.js");
+/* harmony import */ var _actions_sort_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/sort_actions */ "./actions/sort_actions.js");
+
 
 
 var twitchReducer = function twitchReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
 
   switch (action.type) {
     case _actions_twitch_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SEARCH_GAME_CLIPS"]:
@@ -32633,6 +32705,9 @@ var twitchReducer = function twitchReducer() {
       return action.clips;
 
     case _actions_twitch_actions__WEBPACK_IMPORTED_MODULE_0__["RESET_FETCHED_CLIPS"]:
+      return action.clips;
+
+    case _actions_sort_actions__WEBPACK_IMPORTED_MODULE_1__["SORT_GAME_CLIPS"]:
       return action.clips;
 
     default:

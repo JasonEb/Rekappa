@@ -1,0 +1,31 @@
+export const SORT_GAME_CLIPS = 'SORT_GAME_CLIPS';
+
+export const sortClipsBy = (clips, sort_type) => dispatch => {
+    let result = [...clips];
+    let sortBy = sort_type;
+    switch (sort_type) {
+        case 'least-views':
+            result.sort(ByLeastViews);
+            break;
+        default:
+            result.sort(ByMostViews);
+            break;
+
+    }
+    return dispatch(receiveSortedClips(result))
+}
+
+const ByMostViews = (clip_a, clip_b) => {
+    return clip_a.views <= clip_b.views ? 1 : -1
+}
+
+const ByLeastViews = (clip_a, clip_b) => {
+    return clip_a.views >= clip_b.views ? 1 : -1
+}
+
+export const receiveSortedClips = clips => {
+    return {
+        type: SORT_GAME_CLIPS,
+        clips
+    }
+}

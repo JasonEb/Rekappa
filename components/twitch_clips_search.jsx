@@ -7,13 +7,13 @@ class TwitchClipsSearch extends React.Component {
     super();
     this.state = { 
       searchTerm: 'Super Mario Bros.',
-      languages: 'en',
+      languages: '',
       period: 'week',
-      originalClips: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChannelChange = this.handleChannelChange.bind(this);
+    this.handleSortChange = this.handleSortChange.bind(this);
   }
 
   componentDidMount() {
@@ -32,6 +32,11 @@ class TwitchClipsSearch extends React.Component {
     let languages = this.state.languages;
     let period = this.state.period; 
     this.props.fetchSearchTwitchClipsByGame(searchTerm, languages, period);
+  }
+
+  handleSortChange(e) {
+    e.preventDefault();
+    this.props.sortClipsBy(this.props.clips, e.currentTarget.value);
   }
 
   handleChannelChange(e) {
@@ -70,6 +75,12 @@ class TwitchClipsSearch extends React.Component {
       <div className="twitch_clip_search">
         <form className="search-bar">
           <input name="searchTerm" value={this.state.searchTerm} onChange={this.handleChange} />
+
+          <label>Sort By</label>
+          <select name="sort" onChange={this.handleSortChange}>
+            <option value="most-views">Most Views</option>
+            <option value="least-views">Least Views</option>
+          </select>
 
           <span>Language: </span>
           <input name="languages" value={this.state.languages} onChange={this.handleChange} />

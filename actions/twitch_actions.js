@@ -11,7 +11,8 @@ export const fetchSearchTwitchClipsByGame = (searchTerm, languages, period) => d
 };
 
 export const filterClipsByChannel = (clips, channel) => dispatch => {
-	    let result = [];
+		let result = [];
+		debugger
 		clips.forEach( (clip) => {
 			if (clip.broadcaster.display_name === channel || channel === "all") {
 				result.push(clip);
@@ -36,8 +37,11 @@ export const receiveChannelClips = clips => {
 };
 
 export const resetFetchedClips = clips => {
+	debugger
 	return {
 		type: RESET_FETCHED_CLIPS,
 		clips
 	}
 };
+
+//sort
