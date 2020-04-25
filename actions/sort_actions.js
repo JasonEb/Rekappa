@@ -7,6 +7,9 @@ export const sortClipsBy = (clips, sort_type) => dispatch => {
         case 'least-views':
             result.sort(ByLeastViews);
             break;
+        case 'channel':
+            result.sort(ByChannel);
+            break;
         default:
             result.sort(ByMostViews);
             break;
@@ -21,6 +24,10 @@ const ByMostViews = (clip_a, clip_b) => {
 
 const ByLeastViews = (clip_a, clip_b) => {
     return clip_a.views >= clip_b.views ? 1 : -1
+}
+
+const ByChannel = (clip_a, clip_b) => {
+    return clip_a.broadcaster.name >= clip_b.broadcaster.name ? 1 : -1
 }
 
 export const receiveSortedClips = clips => {

@@ -80,6 +80,7 @@ class TwitchClipsSearch extends React.Component {
           <select name="sort" onChange={this.handleSortChange}>
             <option value="most-views">Most Views</option>
             <option value="least-views">Least Views</option>
+            <option value="channel">Channel</option>
           </select>
 
           <span>Language: </span>

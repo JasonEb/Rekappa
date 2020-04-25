@@ -12,7 +12,6 @@ export const fetchSearchTwitchClipsByGame = (searchTerm, languages, period) => d
 
 export const filterClipsByChannel = (clips, channel) => dispatch => {
 		let result = [];
-		debugger
 		clips.forEach( (clip) => {
 			if (clip.broadcaster.display_name === channel || channel === "all") {
 				result.push(clip);

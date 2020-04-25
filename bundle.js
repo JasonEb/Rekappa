@@ -122,6 +122,10 @@ var sortClipsBy = function sortClipsBy(clips, sort_type) {
         result.sort(ByLeastViews);
         break;
 
+      case 'channel':
+        result.sort(ByChannel);
+        break;
+
       default:
         result.sort(ByMostViews);
         break;
@@ -137,6 +141,10 @@ var ByMostViews = function ByMostViews(clip_a, clip_b) {
 
 var ByLeastViews = function ByLeastViews(clip_a, clip_b) {
   return clip_a.views >= clip_b.views ? 1 : -1;
+};
+
+var ByChannel = function ByChannel(clip_a, clip_b) {
+  return clip_a.broadcaster.name >= clip_b.broadcaster.name ? 1 : -1;
 };
 
 var receiveSortedClips = function receiveSortedClips(clips) {
@@ -182,7 +190,6 @@ var fetchSearchTwitchClipsByGame = function fetchSearchTwitchClipsByGame(searchT
 var filterClipsByChannel = function filterClipsByChannel(clips, channel) {
   return function (dispatch) {
     var result = [];
-    debugger;
     clips.forEach(function (clip) {
       if (clip.broadcaster.display_name === channel || channel === "all") {
         result.push(clip);
@@ -489,7 +496,9 @@ var TwitchClipsSearch = /*#__PURE__*/function (_React$Component) {
         value: "most-views"
       }, "Most Views"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "least-views"
-      }, "Least Views")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Language: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, "Least Views"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "channel"
+      }, "Channel")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Language: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         name: "languages",
         value: this.state.languages,
         onChange: this.handleChange
