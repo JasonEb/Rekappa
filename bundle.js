@@ -325,7 +325,9 @@ function TwitchClipItem(_ref) {
     target: "_blank"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "clip_broadcaster_name"
-  }, " ", clip.broadcaster.name))));
+  }, " ", clip.broadcaster.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "clip_game"
+  }, " ", clip.game)));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (TwitchClipItem);
