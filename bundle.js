@@ -229,7 +229,9 @@ function TwitchClipItem(_ref) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "clip_item",
     key: clip.slug
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "clip_views"
+  }, "\uD83D\uDC41 ", clip.views), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: clip.url,
     className: "clip_item_anchor",
     target: "_blank"

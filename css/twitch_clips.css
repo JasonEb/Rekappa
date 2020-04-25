@@ -14,6 +14,25 @@
     font-weight: bold;
 }
 
+.clip_item > .clip_game {
+    outline: 1px dashed red;
+    align-self: flex-end;
+    -webkit-text-stroke: 2px purple;
+    position: absolute;
+    color: white; 
+}
+
 .clip_item_info > .clip_broadcaster_name {
     font-style: oblique; 
+}
+
+.clip_item > .clip_views {
+    background-color: hsla(50, 33%, 25%, 0.75);
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+    width: fit-content;
+    position: absolute;
+    border-radius: 5px;
 }
