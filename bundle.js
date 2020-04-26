@@ -379,40 +379,28 @@ var ClipPlayer = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "twitch_clip_player"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "controls"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "buttons-row"
+        className: "prev-clip"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         classname: "prev-button",
         name: "prev",
         onClick: this.handleControls
-      }, "Previous"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "current-clip"
-      }, "Current Clip"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "next-button",
-        name: "next",
-        onClick: this.handleControls
-      }, "Next")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "thumbnails-row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "prev_clip"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, "Previous"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
         clip: prevClip
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "current-clip"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        clip: currentClip
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "next-clip"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        clip: nextClip
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "player"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_item_iframe__WEBPACK_IMPORTED_MODULE_1__["default"], {
         clip: currentClip,
         options: {
           autoplay: true
         }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "next-clip"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        classname: "prev-button",
+        name: "prev",
+        onClick: this.handleControls
+      }, "Next"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        clip: nextClip
       })));
     }
   }]);
@@ -640,8 +628,8 @@ function TwitchClipItemiFrame(_ref) {
   var autoplay = options.autoplay || false;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("iframe", {
     src: src,
-    height: "480",
-    width: "780",
+    height: "380",
+    width: "500",
     frameBorder: "0",
     scrolling: "no"
   });

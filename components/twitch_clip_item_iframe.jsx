@@ -9,8 +9,8 @@ function TwitchClipItemiFrame({ clip, options = {} }) {
         return (
             <iframe
                 src={src}
-                height="480"
-                width="780"
+                height="380"
+                width="500"
                 frameBorder="0"
                 scrolling="no">
             </iframe>
