@@ -1,0 +1,9 @@
+.twitch_clip_list{
+    outline: 1px solid purple;
+    background-color: lightgray;
+    border-radius: 5px;
+}
+
+.twitch_clip_list > .clip_list {
+    margin: 1em;
+}
