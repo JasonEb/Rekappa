@@ -1,0 +1,23 @@
+.twitch_clip_player {
+    outline: 1px solid red;
+}
+
+.controls {
+    outline: 1px dashed blue; 
+    display: flex;
+    flex-direction: column;
+}
+
+.buttons-row {
+    display: flex;
+    flex-direction: row;
+    height: 2em;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 5px;
+}
+
+.thumbnails-row {
+    display: flex;
+    flex-direction: row;
+}

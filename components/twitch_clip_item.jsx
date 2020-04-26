@@ -2,7 +2,10 @@ import React from 'react';
 
 import TwitchClipItemiFrame from './twitch_clip_item_iframe';
 
-function TwitchClipItem({ clip }) {
+function TwitchClipItem({ clip}) {
+    if (typeof clip === 'undefined') { 
+      debugger
+    }
     return (
       <li className="clip_item" key={clip.slug}> 
 
@@ -18,8 +21,6 @@ function TwitchClipItem({ clip }) {
           </a>
           <div className="clip_game"> {clip.game}</div>
         </div>
-        
-        {/* <TwitchClipItemiFrame clip={clip} /> */}
       </li>
     );
   }

@@ -1,6 +1,7 @@
 @import './twitch_clips.css';
 @import './navbar.css';
 @import './clips_list.css';
+@import './clips_player.css';
 
 #root {
   display: flex;

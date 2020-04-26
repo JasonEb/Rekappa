@@ -240,6 +240,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _twitch_clip_item_iframe__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../twitch_clip_item_iframe */ "./components/twitch_clip_item_iframe.jsx");
+/* harmony import */ var _twitch_clip_item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../twitch_clip_item */ "./components/twitch_clip_item.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -261,6 +262,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -295,6 +297,11 @@ var ClipPlayer = /*#__PURE__*/function (_React$Component) {
         this.incrementIdx();
         return this.setClip();
       }.bind(this), currentClip.duration * 1000);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearTimeout(this.timer);
     }
   }, {
     key: "setClip",
@@ -351,7 +358,7 @@ var ClipPlayer = /*#__PURE__*/function (_React$Component) {
 
       if (idx <= 0) {
         this.setState({
-          idx: clips.length
+          idx: clips.length - 1
         });
       } else {
         this.setState({
@@ -363,18 +370,43 @@ var ClipPlayer = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var clips = this.props.clips;
-      var currentClip = clips[this.state.idx];
+      var idx = this.state.idx;
+      var currentClip = clips[idx];
+      var prevIdx = idx - 1 <= 0 ? clips.length - 1 : idx - 1;
+      var prevClip = clips[prevIdx];
+      var nextIdx = idx + 1 > clips.length - 1 ? 0 : idx + 1;
+      var nextClip = clips[nextIdx];
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "twitch_clip_search"
+        className: "twitch_clip_player"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "controls"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "current idx: ", this.state.idx), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "buttons-row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        classname: "prev-button",
         name: "prev",
         onClick: this.handleControls
-      }, "Previous"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, "Previous"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "current-clip"
+      }, "Current Clip"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "next-button",
         name: "next",
         onClick: this.handleControls
       }, "Next")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "thumbnails-row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "prev_clip"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        clip: prevClip
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "current-clip"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        clip: currentClip
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "next-clip"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        clip: nextClip
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "player"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_item_iframe__WEBPACK_IMPORTED_MODULE_1__["default"], {
         clip: currentClip,
@@ -552,6 +584,11 @@ __webpack_require__.r(__webpack_exports__);
 
 function TwitchClipItem(_ref) {
   var clip = _ref.clip;
+
+  if (typeof clip === 'undefined') {
+    debugger;
+  }
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "clip_item",
     key: clip.slug
@@ -604,7 +641,7 @@ function TwitchClipItemiFrame(_ref) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("iframe", {
     src: src,
     height: "480",
-    width: "720",
+    width: "780",
     frameBorder: "0",
     scrolling: "no"
   });

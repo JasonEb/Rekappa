@@ -1,6 +1,7 @@
 import React from 'react'
 
 import TwitchClipItemiFrame from '../twitch_clip_item_iframe';
+import TwitchClipItem from '../twitch_clip_item';
 
 class ClipPlayer extends React.Component {
   constructor() {
@@ -22,6 +23,10 @@ class ClipPlayer extends React.Component {
       this.incrementIdx()
       return this.setClip()
     }.bind(this), currentClip.duration * 1000)
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   setClip() {
@@ -65,7 +70,7 @@ class ClipPlayer extends React.Component {
     let {clips} = this.props
     let {idx} = this.state
     if (idx <= 0) {
-      this.setState({idx: clips.length});
+      this.setState({idx: clips.length - 1});
     } else {
       this.setState({idx: this.state.idx - 1});
     }
@@ -76,13 +81,33 @@ class ClipPlayer extends React.Component {
 
   render() {
     let { clips} = this.props;
-    let currentClip = clips[this.state.idx];
+    let {idx} = this.state;
+    let currentClip = clips[idx];
+    let prevIdx = (idx - 1 <= 0) ? clips.length - 1 : idx - 1
+    let prevClip = clips[prevIdx]
+    let nextIdx = (idx + 1 > clips.length - 1) ? 0 : idx + 1
+    let nextClip = clips[nextIdx]
+
     return (
-      <div className="twitch_clip_search">
+      <div className="twitch_clip_player">
         <div className="controls">
-          <div>current idx: {this.state.idx}</div>
-          <button name="prev" onClick={this.handleControls}>Previous</button>
-          <button name="next" onClick={this.handleControls}>Next</button>
+          <div className="buttons-row">
+            <button classname="prev-button" name="prev" onClick={this.handleControls}>Previous</button>
+            <div className="current-clip">Current Clip</div>
+            <button className="next-button" name="next" onClick={this.handleControls}>Next</button>
+          </div>
+
+          <div className="thumbnails-row">
+            <div className="prev_clip">
+              <TwitchClipItem clip={prevClip}/>
+            </div>
+            <div className="current-clip">
+              <TwitchClipItem clip={currentClip} />
+            </div>
+            <div className="next-clip">
+              <TwitchClipItem clip={nextClip}/>
+            </div>
+          </div>
         </div>
         <div className="player">
           <TwitchClipItemiFrame clip={currentClip} options={{autoplay: true}} />
