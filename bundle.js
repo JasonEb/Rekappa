@@ -396,8 +396,8 @@ var ClipPlayer = /*#__PURE__*/function (_React$Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "next-clip"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        classname: "prev-button",
-        name: "prev",
+        classname: "next-button",
+        name: "next",
         onClick: this.handleControls
       }, "Next"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
         clip: nextClip
