@@ -228,6 +228,190 @@ var resetFetchedClips = function resetFetchedClips(clips) {
 
 /***/ }),
 
+/***/ "./components/clips_player/clips_player.jsx":
+/*!**************************************************!*\
+  !*** ./components/clips_player/clips_player.jsx ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _twitch_clip_item_iframe__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../twitch_clip_item_iframe */ "./components/twitch_clip_item_iframe.jsx");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var ClipPlayer = /*#__PURE__*/function (_React$Component) {
+  _inherits(ClipPlayer, _React$Component);
+
+  var _super = _createSuper(ClipPlayer);
+
+  function ClipPlayer() {
+    var _this;
+
+    _classCallCheck(this, ClipPlayer);
+
+    _this = _super.call(this);
+    _this.state = {
+      idx: 0
+    };
+    _this.handleControls = _this.handleControls.bind(_assertThisInitialized(_this));
+    _this.incrementIdx = _this.incrementIdx.bind(_assertThisInitialized(_this));
+    _this.decrementIdx = _this.decrementIdx.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(ClipPlayer, [{
+    key: "handleControls",
+    value: function handleControls(e) {
+      e.preventDefault();
+      var choice = e.currentTarget.name; //update current idx
+
+      if (choice === "next") {
+        this.incrementIdx();
+      } else if (choice == "prev") {
+        this.decrementIdx();
+      } else {
+        this.setState({
+          idx: 0
+        });
+      }
+    }
+  }, {
+    key: "incrementIdx",
+    value: function incrementIdx() {
+      var clips = this.props.clips;
+      var idx = this.state.idx;
+
+      if (idx > clips.length) {
+        this.setState({
+          idx: 0
+        });
+      } else {
+        this.setState({
+          idx: this.state.idx + 1
+        });
+      }
+    }
+  }, {
+    key: "decrementIdx",
+    value: function decrementIdx() {
+      var clips = this.props.clips;
+      var idx = this.state.idx;
+
+      if (idx <= 0) {
+        this.setState({
+          idx: clips.length
+        });
+      } else {
+        this.setState({
+          idx: this.state.idx - 1
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var clips = this.props.clips;
+      var currentClip = clips[this.state.idx];
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "twitch_clip_search"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "controls"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "current idx: ", this.state.idx), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        name: "prev",
+        onClick: this.handleControls
+      }, "Previous"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        name: "next",
+        onClick: this.handleControls
+      }, "Next")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "player"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_item_iframe__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        clip: currentClip
+      })));
+    }
+  }]);
+
+  return ClipPlayer;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (ClipPlayer);
+
+/***/ }),
+
+/***/ "./components/clips_player/clips_player_container.jsx":
+/*!************************************************************!*\
+  !*** ./components/clips_player/clips_player_container.jsx ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_twitch_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/twitch_actions */ "./actions/twitch_actions.js");
+/* harmony import */ var _actions_sort_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/sort_actions */ "./actions/sort_actions.js");
+/* harmony import */ var _clips_player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./clips_player */ "./components/clips_player/clips_player.jsx");
+
+
+
+
+var initialState = {
+  clips: []
+};
+
+var mapStateToProps = function mapStateToProps() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  return {
+    clips: state.clips
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    fetchSearchTwitchClipsByGame: function fetchSearchTwitchClipsByGame(searchTerm, languages, period) {
+      return dispatch(_actions_twitch_actions__WEBPACK_IMPORTED_MODULE_1__["fetchSearchTwitchClipsByGame"](searchTerm, languages, period));
+    },
+    filterClipsByChannel: function filterClipsByChannel(clips, channel) {
+      return dispatch(_actions_twitch_actions__WEBPACK_IMPORTED_MODULE_1__["filterClipsByChannel"](clips, channel));
+    },
+    sortClipsBy: function sortClipsBy(clips, sort_type) {
+      return dispatch(_actions_sort_actions__WEBPACK_IMPORTED_MODULE_2__["sortClipsBy"](clips, sort_type));
+    },
+    resetClips: function resetClips(clips) {
+      return dispatch(_actions_twitch_actions__WEBPACK_IMPORTED_MODULE_1__["resetFetchedClips"](clips));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_clips_player__WEBPACK_IMPORTED_MODULE_3__["default"]));
+
+/***/ }),
+
 /***/ "./components/root.jsx":
 /*!*****************************!*\
   !*** ./components/root.jsx ***!
@@ -243,6 +427,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _twitch_clips_search_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./twitch_clips_search_container */ "./components/twitch_clips_search_container.jsx");
 /* harmony import */ var _twitch_clips_list_twitch_clips_list_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./twitch_clips_list/twitch_clips_list_container */ "./components/twitch_clips_list/twitch_clips_list_container.jsx");
+/* harmony import */ var _clips_player_clips_player_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./clips_player/clips_player_container */ "./components/clips_player/clips_player_container.jsx");
+
 
 
 
@@ -254,7 +440,7 @@ var Root = function Root(_ref) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_1__["Provider"], {
     store: store
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["HashRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-    "class": "menu"
+    className: "menu"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, "Rekappa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "menu-list"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -265,7 +451,11 @@ var Root = function Root(_ref) {
     className: "menu-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
     to: "/list"
-  }, "List")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+  }, "List")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "menu-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+    to: "/player"
+  }, "Player")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     exact: true,
     path: "/",
     component: _twitch_clips_search_container__WEBPACK_IMPORTED_MODULE_3__["default"]
@@ -273,6 +463,10 @@ var Root = function Root(_ref) {
     exact: true,
     path: "/list",
     component: _twitch_clips_list_twitch_clips_list_container__WEBPACK_IMPORTED_MODULE_4__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+    exact: true,
+    path: "/player",
+    component: _clips_player_clips_player_container__WEBPACK_IMPORTED_MODULE_5__["default"]
   })));
 };
 
