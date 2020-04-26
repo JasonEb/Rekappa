@@ -1,4 +1,11 @@
 @import './twitch_clips.css';
+@import './navbar.css';
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 body {
   margin: 30px;

@@ -10,10 +10,10 @@ const Root = ({ store }) => {
       <Provider store={store}>
         <HashRouter>
           <nav class="menu">
-            <ul>
-              <li><header>Rekappa</header></li>
-              <li><Link to="/">Main</Link></li>
-              <li><Link to="/list">List</Link></li>
+            <header>Rekappa</header>
+            <ul className="menu-list">
+              <li className="menu-item"><Link to="/">Main</Link></li>
+              <li className="menu-item"><Link to="/list">List</Link></li>
             </ul>
           </nav>
           <Route exact path="/" component={TwitchClipsSearchContainer} />

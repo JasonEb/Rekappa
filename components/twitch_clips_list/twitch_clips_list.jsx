@@ -12,11 +12,14 @@ class TwitchClipsList extends React.Component {
 
   render() {
     let { clips } = this.props;
-
     return (
       <div className="twitch_clip_list">
           <ul className="clip_list">
-                {clips.map( (clip) => <li>{clip.url},</li> )}
+                {clips.map( (clip) => <li>
+                    <pre>
+                        {clip.url.replace("?tt_medium=clips_api&tt_content=url", "")},
+                    </pre>
+                </li>)}
           </ul>
       </div>
     );
