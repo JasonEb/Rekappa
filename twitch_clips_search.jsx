@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import configureStore from './store/store';
 import Root from './components/root';
 
+
 //Debug
 import * as TwitchAPI from './util/api_util';
 import * as TwitchActions from './actions/twitch_actions';

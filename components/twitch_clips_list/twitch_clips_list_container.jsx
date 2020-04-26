@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import TwitchClipsSearch from './twitch_clips_search';
-import * as twitchActions from '../actions/twitch_actions';
-import * as sortActions from '../actions/sort_actions'
+import * as twitchActions from '../../actions/twitch_actions';
+import * as sortActions from '../../actions/sort_actions'
+import TwitchClipsList from './twitch_clips_list'
 
 const initialState = {
     clips: [],
@@ -9,7 +9,7 @@ const initialState = {
 }
 
 const mapStateToProps = (state = initialState) => {
-    return { clips: state.clips}
+    return { clips: state.clips }
 };
   
 const mapDispatchToProps = dispatch => {
@@ -29,5 +29,5 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(TwitchClipsSearch);
+)(TwitchClipsList);
   
