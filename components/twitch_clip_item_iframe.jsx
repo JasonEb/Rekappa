@@ -1,17 +1,18 @@
 import React from 'react';
 
-function TwitchClipItemiFrame({ clip }) {
-    let src = `https://clips.twitch.tv/embed?clip=${clip.slug}&tt_medium=clips_api&tt_content=embed&autoplay=false`
-    
+function TwitchClipItemiFrame({ clip, options = {} }) {
+    let slug = (typeof clip === 'undefined') ? "" : clip.slug; 
+
+    let src = `https://clips.twitch.tv/embed?clip=${slug}&tt_medium=clips_api&tt_content=embed&autoplay=true&muted=false`
+    let autoplay = options.autoplay || false
+
         return (
             <iframe
                 src={src}
-                height="242"
-                width="480"
-                frameborder="0"
-                scrolling="no"
-                autoplay="false"
-                allowfullscreen="false">
+                height="480"
+                width="720"
+                frameBorder="0"
+                scrolling="no">
             </iframe>
     );
   }

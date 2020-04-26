@@ -282,19 +282,45 @@ var ClipPlayer = /*#__PURE__*/function (_React$Component) {
     _this.handleControls = _this.handleControls.bind(_assertThisInitialized(_this));
     _this.incrementIdx = _this.incrementIdx.bind(_assertThisInitialized(_this));
     _this.decrementIdx = _this.decrementIdx.bind(_assertThisInitialized(_this));
+    _this.setClip = _this.setClip.bind(_assertThisInitialized(_this));
+    _this.timer = null;
     return _this;
   }
 
   _createClass(ClipPlayer, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var currentClip = this.props.clips[this.state.idx];
+      this.timer = window.setTimeout(function () {
+        this.incrementIdx();
+        return this.setClip();
+      }.bind(this), currentClip.duration * 1000);
+    }
+  }, {
+    key: "setClip",
+    value: function setClip() {
+      var currentClip = this.props.clips[this.state.idx]; //clear timer, set new timer
+
+      window.clearTimeout(this.timer);
+      this.timer = window.setTimeout(function () {
+        this.incrementIdx();
+        return this.setClip();
+      }.bind(this), currentClip.duration * 1000);
+    }
+  }, {
     key: "handleControls",
     value: function handleControls(e) {
       e.preventDefault();
       var choice = e.currentTarget.name; //update current idx
 
       if (choice === "next") {
+        window.clearTimeout(this.timer);
         this.incrementIdx();
+        this.setClip();
       } else if (choice == "prev") {
+        window.clearTimeout(this.timer);
         this.decrementIdx();
+        this.setClip();
       } else {
         this.setState({
           idx: 0
@@ -351,7 +377,10 @@ var ClipPlayer = /*#__PURE__*/function (_React$Component) {
       }, "Next")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "player"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_twitch_clip_item_iframe__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        clip: currentClip
+        clip: currentClip,
+        options: {
+          autoplay: true
+        }
       })));
     }
   }]);
@@ -566,16 +595,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function TwitchClipItemiFrame(_ref) {
-  var clip = _ref.clip;
-  var src = "https://clips.twitch.tv/embed?clip=".concat(clip.slug, "&tt_medium=clips_api&tt_content=embed&autoplay=false");
+  var clip = _ref.clip,
+      _ref$options = _ref.options,
+      options = _ref$options === void 0 ? {} : _ref$options;
+  var slug = typeof clip === 'undefined' ? "" : clip.slug;
+  var src = "https://clips.twitch.tv/embed?clip=".concat(slug, "&tt_medium=clips_api&tt_content=embed&autoplay=true&muted=false");
+  var autoplay = options.autoplay || false;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("iframe", {
     src: src,
-    height: "242",
-    width: "480",
-    frameborder: "0",
-    scrolling: "no",
-    autoplay: "false",
-    allowfullscreen: "false"
+    height: "480",
+    width: "720",
+    frameBorder: "0",
+    scrolling: "no"
   });
 }
 

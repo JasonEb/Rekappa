@@ -12,6 +12,25 @@ class ClipPlayer extends React.Component {
     this.handleControls = this.handleControls.bind(this);
     this.incrementIdx = this.incrementIdx.bind(this);
     this.decrementIdx = this.decrementIdx.bind(this);
+    this.setClip = this.setClip.bind(this);
+    this.timer = null;
+  }
+
+  componentDidMount() {
+    let currentClip = this.props.clips[this.state.idx];
+    this.timer = window.setTimeout(function () { 
+      this.incrementIdx()
+      return this.setClip()
+    }.bind(this), currentClip.duration * 1000)
+  }
+
+  setClip() {
+    let currentClip = this.props.clips[this.state.idx];
+    //clear timer, set new timer
+    window.clearTimeout(this.timer); 
+    this.timer = window.setTimeout(function() {
+      this.incrementIdx();
+      return this.setClip()}.bind(this), currentClip.duration * 1000)
   }
 
   handleControls(e) {
@@ -20,9 +39,13 @@ class ClipPlayer extends React.Component {
 
     //update current idx
     if (choice === "next"){
-      this.incrementIdx()
+      window.clearTimeout(this.timer);
+      this.incrementIdx();
+      this.setClip();
     } else if (choice =="prev") {
-      this.decrementIdx()
+      window.clearTimeout(this.timer);
+      this.decrementIdx();
+      this.setClip();
     } else {
       this.setState({idx: 0})
     }
@@ -62,7 +85,7 @@ class ClipPlayer extends React.Component {
           <button name="next" onClick={this.handleControls}>Next</button>
         </div>
         <div className="player">
-          <TwitchClipItemiFrame clip={currentClip} />
+          <TwitchClipItemiFrame clip={currentClip} options={{autoplay: true}} />
         </div>
       </div>
     );
