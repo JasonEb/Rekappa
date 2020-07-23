@@ -88,14 +88,14 @@ class ClipPlayer extends React.Component {
     return (
       <div className="twitch_clip_player">
         <div className="prev-clip">
-            <button classname="prev-button" name="prev" onClick={this.handleControls}>Previous</button>
+            <button className="prev-button" name="prev" onClick={this.handleControls}>Previous</button>
             <TwitchClipItem clip={prevClip} />
         </div>
         <div className="player">
           <TwitchClipItemiFrame clip={currentClip} options={{autoplay: true}} />
         </div>
         <div className="next-clip">
-          <button classname="next-button" name="next" onClick={this.handleControls}>Next</button>
+          <button className="next-button" name="next" onClick={this.handleControls}>Next</button>
           <TwitchClipItem clip={nextClip} />
         </div>
       </div>

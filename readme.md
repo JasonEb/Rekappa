@@ -5,6 +5,8 @@ Rekappa is a capstone project for Cal State Fullerton's Masters of Software Engi
 
 A PDF version of the [project report](https://github.com/JasonEb/Rekappa/blob/master/documentation/597EbuengJasonProject_Report.pdf) is within the `/documentation` directory. The report includes several technical documentation, such as system designs, prototypes, and backlog. Below is the `Table of Contents` for reference.
 
+![ToC Sample](https://github.com/JasonEb/Rekappa/blob/master/documentation/figure_01.png)
+
 # Table of Contents
 [Rekappa Project Report](https://github.com/JasonEb/Rekappa/blob/master/documentation/597EbuengJasonProject_Report.pdf)
 |                         Report Contents                  | Paqe Number |
