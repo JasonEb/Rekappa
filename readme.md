@@ -1,5 +1,5 @@
 # Rekappa 
-[Live Demo]([GitHub](http://github.com))
+[Live Demo](http://github.com)
 
 Rekappa is a capstone project for Cal State Fullerton's Masters of Software Engineering program. It's main goals were to express the software development and practices covered within the program. The application is a media platform for Twitch that provides better features for curating content. This paper will demonstrate software engineering processes for building the application with Front-End Technologies, such as JavaScript, React, and Redux.
 
