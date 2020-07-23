@@ -76,9 +76,6 @@ class ClipPlayer extends React.Component {
     }
   }
   
-
-
-
   render() {
     let { clips} = this.props;
     let {idx} = this.state;

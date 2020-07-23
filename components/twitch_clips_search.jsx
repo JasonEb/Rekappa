@@ -17,7 +17,9 @@ class TwitchClipsSearch extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchSearchTwitchClipsByGame(this.state.searchTerm);
+    if(this.props.clips.length == 0){
+      this.props.fetchSearchTwitchClipsByGame(this.state.searchTerm);
+    }
   }
 
   handleChange(e) {
