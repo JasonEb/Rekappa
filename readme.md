@@ -94,5 +94,5 @@ A PDF version of the [project report](https://github.com/JasonEb/Rekappa/blob/ma
 | 10.0 GitHub Repository                                   | 77          |
 | 11.0 Concluding Remarks                                  | 78          |
 | 12.0 Acknowledgements                                    | 79          |
-| *Bibliography                                             | 80          |
+| *Bibliography*                                             | 80          |
 
