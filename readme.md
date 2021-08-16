@@ -1,7 +1,7 @@
 # Rekappa 
 [Live Demo](https://jasoneb.github.io/Rekappa/#/)
 
-Rekappa is a capstone project for Cal State Fullerton's Masters of Software Engineering program. It's main goals were to express the software development and practices covered within the program. The application is a media platform for Twitch that provides better features for curating content. This paper will demonstrate software engineering processes for building the application with Front-End Technologies, such as JavaScript, React, and Redux.
+Rekappa is a capstone project for Cal State Fullerton's Masters of Software Engineering program. It's main goals were to express the software development and practices covered within the program. The application is a media platform for Twitch that provides sorting and filters for curating content. This paper will demonstrate software engineering processes for building the application with Front-End Technologies, such as JavaScript, React, and Redux.
 
 A PDF version of the [project report](https://github.com/JasonEb/Rekappa/blob/master/documentation/597EbuengJasonProject_Report.pdf) is within the `/documentation` directory. The report includes several technical documentation, such as system designs, prototypes, and backlog. Below is the `Table of Contents` for reference.
 
