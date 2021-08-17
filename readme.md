@@ -9,7 +9,7 @@ A PDF version of the [project report](https://github.com/JasonEb/Rekappa/blob/ma
 
 # Table of Contents
 [Rekappa Project Report](https://github.com/JasonEb/Rekappa/blob/master/documentation/597EbuengJasonProject_Report.pdf)
-|                         Report Contents                  | Paqe Number |
+|                         Report Contents                  | Page Number |
 |:---------------------------------------------------------|------------:|
 | Department of Computer Science                           | 1           |
 | Rekappa – a React/Redux app for Twitch                   | 1           |
